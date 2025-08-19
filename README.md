@@ -7,12 +7,9 @@ MindVault is a modern and intuitive app to **create, edit, archive, delete, and 
 ## Table of Contents
 
 - [Features](#features)  
-- [Screenshots](#screenshots)  
 - [Installation](#installation)  
 - [Usage](#usage)  
 - [Technologies Used](#technologies-used)  
-- [Contribution](#contribution)  
-- [License](#license)  
 
 ---
 
