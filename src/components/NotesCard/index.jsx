@@ -30,8 +30,11 @@ export const NotesCard = ({ id, title, text, isPinned }) => {
 
     const onDeleteClick = (id) => {
         const isDeleted = bin?.some(note => note.id === id);
-        !isDeleted && notesDispatch({
+        !isDeleted ? notesDispatch({
             type: 'DELETE_NOTE',
+            payload: { id }
+        }) : notesDispatch({
+            type: 'RESTORE_NOTE',
             payload: { id }
         })
     }

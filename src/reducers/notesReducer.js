@@ -15,7 +15,7 @@ export const notesReducer = (state, { type, payload }) => {
         case 'ADD_NOTE':
             return {
                 ...state,
-                notes: [...state.notes, { text: state.text, title: state.title, id: uuid(), isPinned: false}]
+                notes: [...state.notes, { text: state.text, title: state.title, id: uuid(), isPinned: false }]
             }
         case 'CLEAR_INPUT':
             return {
@@ -61,9 +61,20 @@ export const notesReducer = (state, { type, payload }) => {
                 ...state,
                 notes: !isArchived ? state.notes.filter(note => note.id !== payload.id) : state.notes,
                 archive: isArchived ? state.archive.filter(note => note.id !== payload.id) : state.archive,
-                bin: [...state.bin, {...noteToDelete, deletedAt: Date.now()}]
+                bin: [...state.bin, { ...noteToDelete, deletedAt: Date.now() }]
             }
-              
+
+        case 'RESTORE_NOTE':
+
+            const noteToRestore = state.bin.find(note => note.id === payload.id);
+            const { deletedAt, ...restoredNote } = noteToRestore;
+
+            return {
+                ...state,
+                notes: [...state.notes, restoredNote],
+                bin: state.bin.filter(note => note.id !== payload.id)
+            }
+
         default:
             return state
     }
