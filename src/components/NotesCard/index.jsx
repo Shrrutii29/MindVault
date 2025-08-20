@@ -2,8 +2,9 @@ import { useNotes } from "../../context/notesContext";
 
 export const NotesCard = ({ id, title, text, isPinned }) => {
 
-    const { archive, notesDispatch } = useNotes();
+    const { archive, bin, notesDispatch } = useNotes();
     const isArchived = archive.some(note => note.id === id)
+    const isDeleted = bin.some(note => note.id === id)
 
     const onPinClick = (id) => {
         !isPinned ? notesDispatch({
@@ -27,6 +28,13 @@ export const NotesCard = ({ id, title, text, isPinned }) => {
         })
     }
 
+    const onDeleteClick = (id) => {
+        const isDeleted = bin?.some(note => note.id === id);
+        !isDeleted && notesDispatch({
+            type: 'DELETE_NOTE',
+            payload: { id }
+        })
+    }
 
     return (
         <div className="border border-amber-950 p-2 rounded-md bg-gray-700 text-slate-50  w-[350px]" key={id}>
@@ -34,7 +42,7 @@ export const NotesCard = ({ id, title, text, isPinned }) => {
                 <p className="p-2">{title}</p>
 
                 {
-                    !isArchived && (
+                    (!isDeleted && !isArchived) && (
                         <button onClick={() => onPinClick(id)}>
                             {
                                 isPinned
@@ -49,16 +57,24 @@ export const NotesCard = ({ id, title, text, isPinned }) => {
             <div className="flex flex-col">
                 <p className="p-2">{text}</p>
                 <div className="ml-auto">
-                    <button onClick={() => onArchiveClick(id)}>
+                {
+                    !isDeleted && (
+                        <button onClick={() => onArchiveClick(id)}>
                         {
                             isArchived ?
                                 <span className="material-symbols-outlined">unarchive</span> :
                                 <span className="material-symbols-outlined">archive</span>
-
                         }
                     </button>
-                    <button>
+
+                    )
+                }    
+                    <button onClick={() => onDeleteClick(id)}>
+                    {
+                        isDeleted ?
+                        <span className="material-symbols-outlined">restore_from_trash</span> :
                         <span className="material-symbols-outlined">delete</span>
+                    }
                     </button>
                 </div>
             </div>
