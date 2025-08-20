@@ -8,8 +8,6 @@ export const Important = () => {
     const { notes } = useNotes();
 
     const pinnedNotes = notes.filter(note => note.isPinned);
-    console.log("Notes in Important:", notes);
-
 
     return (
         <>

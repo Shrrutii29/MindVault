@@ -33,6 +33,25 @@ export const notesReducer = (state, {type, payload}) => {
                 ...state,
                 notes : state.notes.map(note => note.id === payload.id ? {...note, isPinned : !note.isPinned} : note )
             }
+                
+            case 'ARCHIVE':
+                const noteToArchive = state.notes.find(note => note.id === payload.id);
+              
+                return {
+                  ...state, 
+                  archive: noteToArchive ? [...state.archive, noteToArchive] : state.archive,
+                  notes: state.notes.filter(note => note.id !== payload.id)
+            }
+
+            case 'UNARCHIVE':
+                const noteToUnarchive = state.archive.find(note => note.id === payload.id);
+              
+                return {
+                  ...state, 
+                  notes: noteToUnarchive ? [...state.notes, noteToUnarchive] : state.notes,
+                  archive: state.archive.filter(note => note.id !== payload.id)
+            }
+              
         default:
             return state
     }

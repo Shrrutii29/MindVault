@@ -34,8 +34,6 @@ export const Home = () => {
     const pinnedNotes = notes.length > 0 && notes.filter(note => note.isPinned);
     const otherNotes = notes.length > 0 && notes.filter(note => !note.isPinned);
 
-    console.log(pinnedNotes)
-    console.log(otherNotes)
     return (
         <>
             <Navbar />
@@ -54,7 +52,7 @@ export const Home = () => {
                         {
                             pinnedNotes?.length > 0 && (
                             <div>
-                               <h1 className="">Pinned Notes</h1>
+                               <h1>Pinned Notes</h1>
                                 <div className="flex flex-wrap gap-6 w-[350px]">
                                     {
                                         pinnedNotes.map(({ id, title, text, isPinned }) => (

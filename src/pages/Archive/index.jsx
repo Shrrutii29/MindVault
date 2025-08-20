@@ -1,0 +1,41 @@
+import { Navbar } from "../../components/Navbar"
+import { Sidebar } from "../../components/Sidebar"
+import { useNotes } from "../../context/notesContext"
+import { NotesCard } from "../../components/NotesCard"
+
+export const Archive = () => {
+
+    const { archive } = useNotes();
+
+    return (
+        <>
+            <Navbar />
+            <main className="flex gap-3">
+                <Sidebar />
+
+                <div className="flex-1">
+                    {
+                        archive?.length > 0 ? (
+                            <div className="mt-14 flex flex-wrap gap-6">
+                                <h1 className="w-full">Archived Notes</h1>
+                                {
+                                    archive.map(({ id, title, text, isPinned }) => (
+                                        <NotesCard key={id} id={id} title={title} text={text} isPinned={isPinned} />
+                                    ))
+                                }
+                            </div>
+                        ) : (
+                            <div className="grid min-h-[30vh] items-center">
+                                <div className="flex flex-col items-center text-gray-500">
+                                    <span className="material-symbols-outlined">stack</span>
+                                    <h1 className="text-xl font-medium">No archived notes yet</h1>
+                                </div>
+                            </div>
+                        )
+                    }
+                </div>
+            </main>
+
+        </>
+    )
+}
