@@ -1,86 +1,80 @@
 import { useNotes } from "../../context/notesContext";
 
 export const NotesCard = ({ id, title, text, isPinned }) => {
+  const { archive, bin, notesDispatch } = useNotes();
 
-    const { archive, bin, notesDispatch } = useNotes();
-    const isArchived = archive.some(note => note.id === id)
-    const isDeleted = bin.some(note => note.id === id)
+  const isArchived = archive.some((note) => note.id === id);
+  const isDeleted = bin.some((note) => note.id === id);
 
-    const onPinClick = (id) => {
-        !isPinned ? notesDispatch({
-            type: 'PIN',
-            payload: { id }
-        }) : notesDispatch({
-            type: 'UNPIN',
-            payload: { id }
-        })
-    }
+  const onPinClick = (id) => {
+    notesDispatch({
+      type: isPinned ? "UNPIN" : "PIN",
+      payload: { id },
+    });
+  };
 
-    const onArchiveClick = (id) => {
+  const onArchiveClick = (id) => {
+    notesDispatch({
+      type: isArchived ? "UNARCHIVE" : "ARCHIVE",
+      payload: { id },
+    });
+  };
 
-        const isArchived = archive?.some(note => note.id === id);
-        !isArchived ? notesDispatch({
-            type: 'ARCHIVE',
-            payload: { id }
-        }) : notesDispatch({
-            type: 'UNARCHIVE',
-            payload: { id }
-        })
-    }
+  const onDeleteClick = (id) => {
+    notesDispatch({
+      type: isDeleted ? "RESTORE_NOTE" : "DELETE_NOTE",
+      payload: { id },
+    });
+  };
 
-    const onDeleteClick = (id) => {
-        const isDeleted = bin?.some(note => note.id === id);
-        !isDeleted ? notesDispatch({
-            type: 'DELETE_NOTE',
-            payload: { id }
-        }) : notesDispatch({
-            type: 'RESTORE_NOTE',
-            payload: { id }
-        })
-    }
+  return (
+    <div className="bg-gray-800 dark:bg-gray-700 text-slate-50 rounded-2xl shadow-md p-4 w-full max-w-sm flex flex-col justify-between">
+      {/* Title + Pin */}
+      <div className="flex justify-between items-center border-b border-gray-600 pb-2 mb-2 notes-card">
+        <p className="font-semibold text-lg">{title}</p>
+        {!isDeleted && !isArchived && (
+          <button
+            onClick={() => onPinClick(id)}
+            className="text-yellow-400 hover:text-yellow-500 transition-all"
+          >
+            {isPinned ? (
+              <span className="material-symbols-sharp">keep_off</span>
+            ) : (
+              <span className="material-symbols-outlined">keep</span>
+            )}
+          </button>
+        )}
+      </div>
 
-    return (
-        <div className="border border-amber-950 p-2 rounded-md bg-gray-700 text-slate-50  w-[350px]" key={id}>
-            <div className="flex justify-between border-b-2">
-                <p className="p-2">{title}</p>
+      {/* Text */}
+      <p className="text-gray-200 dark:text-gray-100 mb-4">{text}</p>
 
-                {
-                    (!isDeleted && !isArchived) && (
-                        <button onClick={() => onPinClick(id)}>
-                            {
-                                isPinned
-                                    ? <span className="material-symbols-sharp">keep_off </span>
-                                    : <span className="material-symbols-outlined">keep</span>
-                            }
-                        </button>
+      {/* Actions */}
+      <div className="flex justify-end gap-3">
+        {!isDeleted && (
+          <button
+            onClick={() => onArchiveClick(id)}
+            className="hover:text-blue-400 transition-colors"
+          >
+            {isArchived ? (
+              <span className="material-symbols-outlined">unarchive</span>
+            ) : (
+              <span className="material-symbols-outlined">archive</span>
+            )}
+          </button>
+        )}
 
-                    )
-                }
-            </div>
-            <div className="flex flex-col">
-                <p className="p-2">{text}</p>
-                <div className="ml-auto">
-                {
-                    !isDeleted && (
-                        <button onClick={() => onArchiveClick(id)}>
-                        {
-                            isArchived ?
-                                <span className="material-symbols-outlined">unarchive</span> :
-                                <span className="material-symbols-outlined">archive</span>
-                        }
-                    </button>
-
-                    )
-                }    
-                    <button onClick={() => onDeleteClick(id)}>
-                    {
-                        isDeleted ?
-                        <span className="material-symbols-outlined">restore_from_trash</span> :
-                        <span className="material-symbols-outlined">delete</span>
-                    }
-                    </button>
-                </div>
-            </div>
-        </div>
-    )
-}
+        <button
+          onClick={() => onDeleteClick(id)}
+          className="hover:text-red-400 transition-colors"
+        >
+          {isDeleted ? (
+            <span className="material-symbols-outlined">restore_from_trash</span>
+          ) : (
+            <span className="material-symbols-outlined">delete</span>
+          )}
+        </button>
+      </div>
+    </div>
+  );
+};
