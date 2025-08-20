@@ -55,7 +55,7 @@ export const Home = () => {
                             pinnedNotes?.length > 0 && (
                             <div>
                                <h1 className="">Pinned Notes</h1>
-                                <div className="flex flex-wrap gap-6">
+                                <div className="flex flex-wrap gap-6 w-[350px]">
                                     {
                                         pinnedNotes.map(({ id, title, text, isPinned }) => (
                                             <NotesCard key={id} id={id} title={title} text={text} isPinned={isPinned} />
@@ -66,15 +66,10 @@ export const Home = () => {
                             )
                         }
 
-                        <div>
-                        {
-                            pinnedNotes?.length > 0 && (
-                                <h1 className="">Other Notes</h1>
-
-                            )
-                        }
                         {
                             otherNotes?.length > 0 && (
+                            <div>
+                                <h1 className="">Other Notes</h1>
                                 <div className="flex flex-wrap gap-6">
                                     {
                                         otherNotes.map(({ id, title, text, isPinned }) => (
@@ -82,9 +77,9 @@ export const Home = () => {
                                         ))
                                     }
                                 </div>
+                            </div>
                             )
                         }
-                        </div>
 
                     </div>
 
