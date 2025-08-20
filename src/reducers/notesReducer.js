@@ -1,3 +1,4 @@
+import { useActionData } from 'react-router-dom';
 import { v4 as uuid } from 'uuid';
 
 export const notesReducer = (state, { type, payload }) => {
@@ -74,6 +75,15 @@ export const notesReducer = (state, { type, payload }) => {
                 notes: [...state.notes, restoredNote],
                 bin: state.bin.filter(note => note.id !== payload.id)
             }
+
+        case "AUTO_DELETE_NOTE": {
+            const now = Date.now();
+            return {
+                ...state,
+                bin: state.bin.filter(note => now - note.deletedAt < payload)
+            };
+        }
+
 
         default:
             return state

@@ -1,13 +1,14 @@
 import logo from '../../assets/notes_icon.jpeg';
 
 export const Navbar = () => {
-    return (
-        <header className='flex px-5 py-2 gap-3 border-b-2 border-grey-100'>
-            <div className='w-15 h-15'>
-                <img className='w-full h-full' src={logo} alt="notes logo" />
-            </div>
-            <h1 className='text-brown-500 text-4xl
-font-bold py-2'>MindVault</h1>
-        </header>
-    )
-}
+  return (
+    <header className="flex items-center px-6 py-3 gap-4 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-sm">
+      <div className="w-12 h-12">
+        <img className="w-full h-full rounded-full object-cover" src={logo} alt="notes logo" />
+      </div>
+      <h1 className="text-orange-900 dark:text-amber-400 text-3xl font-bold tracking-wide">
+        MindVault
+      </h1>
+    </header>
+  );
+};

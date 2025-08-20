@@ -1,49 +1,45 @@
-import { useContext } from "react";
 import { NotesCard } from "../../components/NotesCard";
 import { useNotes } from "../../context/notesContext";
 import { Navbar } from "../../components/Navbar";
 import { Sidebar } from "../../components/Sidebar";
 
 export const Important = () => {
-    const { notes } = useNotes();
+  const { notes } = useNotes();
+  const pinnedNotes = notes.filter((note) => note.isPinned);
 
-    const pinnedNotes = notes.filter(note => note.isPinned);
-
-    return (
-        <>
-            <Navbar />
-            <main className="flex gap-3">
-                <Sidebar />
-
-                <div className="flex-1">
-                    {
-                        pinnedNotes?.length > 0 ? (
-                            <div className="mt-14 flex flex-wrap gap-6">
-                                <h1 className="w-full">Pinned Notes</h1>
-                                {
-                                    pinnedNotes.map(({ id, title, text, isPinned }) => (
-                                        <NotesCard key={id} id={id} title={title} text={text} isPinned={isPinned} />
-                                    ))
-                                }
-                            </div>
-                        ) : (
-                            <div className="grid min-h-[30vh] items-center">
-                                <div className="flex flex-col items-center text-gray-500">
-                                    <span className="material-symbols-outlined">pinboard</span>
-                                    <h1 className="text-xl font-medium">No pinned notes yet</h1>
-                                </div>
-                            </div>
-
-                        )
-                    }
-                </div>
-
-            </main>
-
-
-
-        </>
-
-
-    )
-}
+  return (
+    <>
+      <Navbar />
+      <main className="flex gap-3">
+        <Sidebar />
+        <div className="flex-1 px-6 py-4">
+          {pinnedNotes?.length > 0 ? (
+            <div>
+              <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4">
+                📌 Pinned Notes
+              </h1>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                {pinnedNotes.map(({ id, title, text, isPinned }) => (
+                  <NotesCard
+                    key={id}
+                    id={id}
+                    title={title}
+                    text={text}
+                    isPinned={isPinned}
+                  />
+                ))}
+              </div>
+            </div>
+          ) : (
+            <div className="grid min-h-[50vh] place-items-center">
+              <div className="flex flex-col items-center text-gray-500">
+                <span className="material-symbols-outlined text-5xl">pinboard</span>
+                <h1 className="text-lg font-medium mt-2">No pinned notes yet</h1>
+              </div>
+            </div>
+          )}
+        </div>
+      </main>
+    </>
+  );
+};
