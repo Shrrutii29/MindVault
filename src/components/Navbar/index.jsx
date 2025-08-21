@@ -6,7 +6,7 @@ export const Navbar = () => {
       <div className="w-12 h-12">
         <img className="w-full h-full rounded-full object-cover" src={logo} alt="notes logo" />
       </div>
-      <h1 className="text-orange-900 dark:text-amber-400 text-3xl font-bold tracking-wide">
+      <h1 className="text-gray-100 dark:text-amber-400 text-3xl font-bold tracking-wide">
         MindVault
       </h1>
     </header>
